@@ -13,20 +13,22 @@ var mongoose = require('mongoose'),
  */
 exports.create = function(req, res) {
   console.log(req.body);
+  console.log(req.files);
   var photo = new Photo(req.body);
   photo.user = req.user;
-  if(req.files.file)
-    photo.image =req.files.file.name;
-  else
+  if(req.files.image) {
+    photo.image =req.files.image.path.substring(7);
+    console.log(photo.image);
+  }  else
     photo.image='default.jpg';
-  
+
 	photo.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(photo);
+			res.redirect('/#!/photos/'+photo._id); // redirection to '/'jsonp(photo);
 		}
 	});
 };

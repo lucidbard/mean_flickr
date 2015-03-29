@@ -1,14 +1,9 @@
 'use strict';
 
 
-angular.module('photos').controller('PhotosController', ['$scope', '$stateParams', '$location', 'Authentication', 'Photos', 'ItemsService','FileUploader',
-	function($scope, $stateParams, $location, Authentication, Photos,ItemsService,FileUploader) {
+angular.module('photos').controller('PhotosController', ['$scope', '$stateParams', '$location', 'Authentication', 'Photos', 
+	function($scope, $stateParams, $location, Authentication, Photos) {
 	  $scope.authentication = Authentication;
-          $scope.uploader = new FileUploader();
-
-          $scope.uploadImage = function(imageElement){
-            console.log($scope.uploader.queue[0].file);
-          };
 
 		// Create new Photo
 		$scope.create = function() {
@@ -16,17 +11,17 @@ angular.module('photos').controller('PhotosController', ['$scope', '$stateParams
 			var photo = new Photos ({
 			  name: this.name
 			});
-                  ItemsService.saveItem(photo,$scope.uploader.queue[0].file);
-/*			// Redirect after save
-			photo.$save(function(response) {
-				$location.path('photos/' + response._id);
+		  photo.$save(function(response) {
+		    $location.path('photos/' + response._id);
 
-				// Clear form fields
-				$scope.name = '';
-                          $scope.image = '';
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});*/
+		    // Clear form fields
+		    $scope.name = '';
+
+                    $scope.image = '';
+		  }, function(errorResponse) {
+		       $scope.error = errorResponse.data.message;
+		     });
+                  
 		};
 
 		// Remove existing Photo

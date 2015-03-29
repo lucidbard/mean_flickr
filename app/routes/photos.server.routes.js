@@ -1,12 +1,12 @@
 'use strict';
 
 module.exports = function(app) {
-	var users = require('../../app/controllers/users.server.controller');
-	var photos = require('../../app/controllers/photos.server.controller');
+  var users = require('../../app/controllers/users.server.controller');
+  var photos = require('../../app/controllers/photos.server.controller');
   var multer = require('multer');
   app.use(multer({ dest:'./public/uploads'}));
-	// Photos Routes
-	app.route('/photos')
+  // Photos Routes
+  app.route('/photos')
 		.get(photos.list)
 		.post(users.requiresLogin, photos.create);
 

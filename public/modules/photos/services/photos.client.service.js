@@ -11,32 +11,3 @@ angular.module('photos').factory('Photos', ['$resource',
 		});
 	}
 ]);
-angular.module('photos').factory('ItemsService', ['$http','$rootScope', function($http, $rootScope) 
-{
-    var service={};
-
-    service.saveItem = function(item, image)
-    {
-
-        var fd = new FormData();
-        fd.append('file', image);
-        fd.append('photo', JSON.stringify(item));
-        $http.post('photos/', fd, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        })
-        .success(function(){
-            console.log('success add new item');
-        })
-        .error(function(e){
-            console.log('error add new item', e);
-        });
-
-
-    };
-
-    return service;
-
-}
-
-]);
