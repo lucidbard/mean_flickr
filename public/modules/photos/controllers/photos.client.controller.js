@@ -1,11 +1,13 @@
 'use strict';
 
 
-angular.module('photos').controller('PhotosController', ['$scope', '$stateParams', '$location', 'Authentication', 'Photos', 'ItemsService',
-	function($scope, $stateParams, $location, Authentication, Photos,ItemsService) {
+angular.module('photos').controller('PhotosController', ['$scope', '$stateParams', '$location', 'Authentication', 'Photos', 'ItemsService','FileUploader',
+	function($scope, $stateParams, $location, Authentication, Photos,ItemsService,FileUploader) {
 	  $scope.authentication = Authentication;
-          $scope.uploadImage = function(){
-            console.log($scope.image.files[0]);
+          $scope.uploader = new FileUploader();
+
+          $scope.uploadImage = function(imageElement){
+            console.log($scope.uploader.queue[0].file);
           };
 
 		// Create new Photo
@@ -14,7 +16,7 @@ angular.module('photos').controller('PhotosController', ['$scope', '$stateParams
 			var photo = new Photos ({
 			  name: this.name
 			});
-                  ItemsService.saveItem(photo,$scope.image);
+                  ItemsService.saveItem(photo,$scope.uploader.queue[0].file);
 /*			// Redirect after save
 			photo.$save(function(response) {
 				$location.path('photos/' + response._id);
